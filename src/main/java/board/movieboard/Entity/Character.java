@@ -12,4 +12,4 @@ public class Character {
     private String PhotoUrl;
 
     private int Author;
-}
+} 
