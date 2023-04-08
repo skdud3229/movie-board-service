@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet">
+  <link href="/css/network.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="mynetwork"></div>
+<div id="network-popup">
+  <span id="operation">node</span> <br />
+  <table style="margin:auto">
+    <tbody>
+    <tr>
+      <td>name</td>
+      <td> <input id="node-name" type="text" placeholder="이름을 입력하시오."/></td>
+    </tr>
+    <tr>
+      <td>details</td>
+      <td> <input id="node-details" type="text" placeholder="상세 설명을 입력하시오."/> </td>
+    </tr>
+    </tbody>
+  </table>
+  <input type="button" value="add" id="addButton" />
+  <input type="button" value="cancel" id="cancelButton" />
+</div>
+<div>
+  <button id="saveButton" onclick="saveNodes()">SAVE</button>
+</div>
+<script th:inline="javascript">
+  let nodes = null;
+  let edges = null;
+  let network = null;
+  let data=null;
+  let updatedNodes=null;
+
+  function setDefaultNodes(){
+  nodes=[];
+  updatedNodes=[];
+  let element;
+  /*[# th:each="node : ${nodeList}"]*/
+  element={id:[[${node.id}]], label:[[${node.name}]],title:[[${node.details}]]};
+  if([[${node.PhotoUrl}]]){
+  let img='../images/'+[[${node.PhotoUrl}]];
+  element["shape"]="circularImage";
+  element["image"]=img;
+  }
+  nodes.push(element);
+  /*[/]*/
+  data={nodes:nodes,edges:edges};
+  }
+
+  function destroy() {
+  if (network !== null) {
+  network.destroy();
+  network = null;
+  }
+  }
+
+  function draw(){
+  destroy();
+  let options={
+  interaction:{hover:true},
+  manipulation:{
+    addNode:function(data,callback){
+      document.getElementById("operation").innerText="Add character";
+      document.getElementById("addButton").onclick = addData.bind(this, data, callback);
+      document.getElementById("cancelButton").onclick = clearPopUp.bind();
+      document.getElementById("network-popup").style.display = "block";
+    }
+  },
+  }
+  let container=document.getElementById("mynetwork");
+  network = new vis.Network(container, data, options);
+  }
+
+  function clearPopUp() {
+    document.getElementById("addButton").onclick = null;
+    document.getElementById("cancelButton").onclick = null;
+    document.getElementById("network-popup").style.display = "none";
+  }
+  function addData(data, callback) {
+    data.id=vis.util.randomUUID();
+    data.label = document.getElementById("node-name").value;
+    data.title=document.getElementById("node-details").value;
+    updatedNodes.push({id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null})
+    clearPopUp();
+    callback(data);
+  }
+
+  function init(){
+  setDefaultNodes();
+  draw();
+  }
+
+  window.addEventListener("load", ()=>{init();});
+</script>
+</body>
+</html>
