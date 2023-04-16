@@ -1,12 +1,12 @@
 package com.movieworld.movieboard.controller;
 
 public class Node {
-    String id;
+    private String id;
     //long boardId;
-    boolean isHub;
-    String PhotoUrl;
-    String name;
-    String details;
+    private boolean isHub;
+    private String PhotoUrl;
+    private String name;
+    private String details;
     //String author;
     Node(String id, boolean isHub, String PhotoUrl, String name, String details){
         this.id=id;

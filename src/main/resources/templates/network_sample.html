@@ -34,6 +34,12 @@
   let network = null;
   let data=null;
   let updatedNodes=null;
+  function saveNodes(){
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/network');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(updatedNodes));
+  }
 
   function setDefaultNodes(){
   nodes=[];
