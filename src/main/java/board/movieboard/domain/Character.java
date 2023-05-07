@@ -1,4 +1,4 @@
-package board.movieboard.Entity;
+package board.movieboard.domain;
 
 public class Character {
     private int Characterid;
@@ -12,4 +12,4 @@ public class Character {
     private String PhotoUrl;
 
     private int Author;
-} 
+}
