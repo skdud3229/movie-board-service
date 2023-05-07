@@ -1,4 +1,4 @@
-package board.movieboard.Entity;
+package com.movieworld.movieboard.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
