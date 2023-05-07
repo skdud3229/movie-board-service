@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet">
+    <link href="/css/network.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="mynetwork"></div>
+<div id="network-popup">
+    <span id="operation">node</span> <br />
+    <table style="margin:auto">
+        <tbody>
+        <tr>
+            <td>name</td>
+            <td> <input id="node-name" type="text" placeholder="이름을 입력하시오."/></td>
+        </tr>
+        <tr>
+            <td>details</td>
+            <td> <input id="node-details" type="text" placeholder="상세 설명을 입력하시오."/> </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="button" value="add" id="addButton" />
+    <input type="button" value="del" id="delButton" />
+    <input type="button" value="cancel" id="cancelButton" />
+</div>
+<div>
+    <button id="saveButton" onclick="saveNodes()">SAVE</button>
+</div>
+<script th:inline="javascript">
+  let nodes = null;
+  let edges = null;
+  let network = null;
+  let data=null;
+  let updatedNodes=null;
+  var doubleClickTime = 0;
+  var threshold = 200;
+
+  function saveNodes(){
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/network');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(updatedNodes));
+  }
+
+  function setDefaultNodes(){
+  nodes=[];
+  updatedNodes=[];
+  let element;
+  /*[# th:each="node : ${nodeList}"]*/
+  element={id:[[${node.id}]], label:[[${node.name}]],title:[[${node.details}]]};
+  if([[${node.PhotoUrl}]]){
+  let img='../images/'+[[${node.PhotoUrl}]];
+  element["shape"]="circularImage";
+  element["image"]=img;
+  }
+  nodes.push(element);
+  /*[/]*/
+  data={nodes:nodes,edges:edges};
+  }
+
+  function destroy() {
+  if (network !== null) {
+  network.destroy();
+  network = null;
+  }
+  }
+
+  function draw(){
+  destroy();
+  let options={
+  interaction:{hover:true},
+  manipulation:{
+    addNode:function(data,callback){
+      document.getElementById("operation").innerText="Add character";
+      document.getElementById("addButton").onclick = addData.bind(this, data, callback, 0);
+      document.getElementById("cancelButton").onclick = clearPopUp.bind();
+      document.getElementById("network-popup").style.display = "block";
+    }
+  },
+  }
+  let container=document.getElementById("mynetwork");
+  network = new vis.Network(container, data, options);
+  }
+
+  function clearPopUp() {
+    document.getElementById("addButton").onclick = null;
+    document.getElementById("cancelButton").onclick = null;
+    document.getElementById("network-popup").style.display = "none";
+  }
+
+  function addData(data, callback, t) {
+    data.id=vis.util.randomUUID();
+    data.label = document.getElementById("node-name").value;
+    data.title=document.getElementById("node-details").value;
+    updatedNodes.push({type:t, id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null})
+    //clearPopUp();
+    callback(data);
+  }
+
+  function onClick(param, callback) {
+    console.log(param.nodes.length);
+    console.log("onClick running");
+    var t0 = new Date();
+    if (t0 - doubleClickTime > threshold) {
+        setTimeout(function () {
+            if (t0 - doubleClickTime > threshold) {
+                doOnClick(param, callback);
+            }
+        },threshold);
+    }
+}
+
+function doOnClick(param, callback) {
+    console.log("execute onClick function");
+    if(param.nodes.length!=0){
+        var returnValue=confirm("You sure to delete this node?");
+        if(returnValue==true) {
+            var delNode=nodes.find(item=>item.id===param.nodes[0]);
+            updatedNodes.push({type:1, id:delNode.id,details:delNode.title,name:delNode.label,isHub:false,PhotoUrl:null})
+            network.deleteSelected();
+            var edges=getConnectedEdges(param.nodes[0]);
+            edges.forEach(e=>removeEdge(e));
+        }
+    }
+}
+
+function onDoubleClick(param) {
+    doubleClickTime = new Date();
+    console.log("execute onDoubleClick function");
+
+}
+
+  function init(){
+  setDefaultNodes();
+  draw();
+  network.on("click", onClick);
+  network.on("doubleClick", onDoubleClick);
+  }
+
+  window.addEventListener("load", ()=>{init();});
+
+
+</script>
+</body>
+</html>
