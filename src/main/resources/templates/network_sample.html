@@ -22,8 +22,14 @@
     </tr>
     </tbody>
   </table>
-  <input type="button" value="add" id="addButton" />
-  <input type="button" value="cancel" id="cancelButton" />
+  <div id="buttons">
+    <input type="button" value="add" id="addButton" />
+    <div id="selectedButtons">
+      <input type="button" value="update" id="updateButton">
+      <input type="button" value="del" id="delButton" />
+    </div>
+    <input type="button" value="cancel" id="cancelButton" />
+  </div>
 </div>
 <div>
   <button id="saveButton" onclick="saveNodes()">SAVE</button>
@@ -39,6 +45,7 @@
     xhr.open('POST', '/network');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(updatedNodes));
+    updatedNodes.splice(0,updatedNodes.length);
   }
 
   function setDefaultNodes(){
@@ -74,6 +81,10 @@
       document.getElementById("addButton").onclick = addData.bind(this, data, callback);
       document.getElementById("cancelButton").onclick = clearPopUp.bind();
       document.getElementById("network-popup").style.display = "block";
+      document.getElementById("addButton").style.display="inline-block";
+      document.getElementById("node-name").value=null;
+      document.getElementById("node-details").value=null;
+      document.getElementById("selectedButtons").style.display="none";
     }
   },
   }
@@ -84,6 +95,8 @@
   function clearPopUp() {
     document.getElementById("addButton").onclick = null;
     document.getElementById("cancelButton").onclick = null;
+    document.getElementById("node-name").value=null;
+    document.getElementById("node-details").value=null;
     document.getElementById("network-popup").style.display = "none";
   }
   function addData(data, callback) {
@@ -95,9 +108,39 @@
     callback(data);
   }
 
+  function delNode(delNode){
+    network.deleteSelected();
+    updatedNodes.push({type:1, id:delNode.id,details:delNode.title,name:delNode.label,isHub:false,PhotoUrl:null});
+    clearPopUp();
+  }
+
+  function updateNode(selectedNode){
+    selectedNode.label = document.getElementById("node-name").value;
+    selectedNode.title=document.getElementById("node-details").value;
+    updatedNodes.push({type:1, id:delNode.id,details:delNode.title,name:delNode.label,isHub:false,PhotoUrl:null});
+    network.redraw();
+    clearPopUp();
+  }
+  function onNode(param){
+    let selectedNode=nodes.find(item=>item.id===param.nodes[0]);
+
+    document.getElementById("operation").innerText="Update character";
+    document.getElementById("updateButton").onclick=updateNode.bind(this,selectedNode);
+    document.getElementById("delButton").onclick = delNode.bind(this,selectedNode);
+    document.getElementById("cancelButton").onclick = clearPopUp.bind();
+
+    document.getElementById("node-name").value=selectedNode.label;
+    document.getElementById("node-details").value=selectedNode.title;
+
+    document.getElementById("network-popup").style.display = "block";
+    document.getElementById("selectedButtons").style.display = "inline-block";
+    document.getElementById("addButton").style.display="none";
+  }
+
   function init(){
   setDefaultNodes();
   draw();
+  network.on("selectNode", onNode);
   }
 
   window.addEventListener("load", ()=>{init();});
