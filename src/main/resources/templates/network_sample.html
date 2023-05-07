@@ -110,6 +110,8 @@
 
   function delNode(delNode){
     network.deleteSelected();
+    //var edges=getConnectedEdges(delNode);
+    //edges.forEach(e=>removeEdge(e));
     updatedNodes.push({type:1, id:delNode.id,details:delNode.title,name:delNode.label,isHub:false,PhotoUrl:null});
     clearPopUp();
   }
@@ -117,8 +119,8 @@
   function updateNode(selectedNode){
     selectedNode.label = document.getElementById("node-name").value;
     selectedNode.title=document.getElementById("node-details").value;
-    updatedNodes.push({type:1, id:delNode.id,details:delNode.title,name:delNode.label,isHub:false,PhotoUrl:null});
-    network.redraw();
+    updatedNodes.push({type:2, id:selectedNode.id,details:selectedNode.title,name:selectedNode.label,isHub:false,PhotoUrl:null});
+    network.setData({nodes:nodes});
     clearPopUp();
   }
   function onNode(param){
