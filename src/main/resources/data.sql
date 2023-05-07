@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS movie_db;
+
+-- 테이블 생성 쿼리 등 다른 쿼리문들...
