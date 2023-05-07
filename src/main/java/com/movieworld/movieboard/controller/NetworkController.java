@@ -24,8 +24,12 @@ public class NetworkController {
         return "network_sample";
     }
     @PostMapping("/network")
-    String saveNetwork(@RequestBody String nodeList){
-        System.out.println(nodeList);
-        return "redirect:/network";
+    String saveNetwork(@RequestBody List<updatedNode> nodeList){
+        for (updatedNode element : nodeList) {
+            System.out.println(element.getType());
+            System.out.println(element.getId());
+            System.out.println(element.getName());
+        }
+        return "redirect:/network ";
     }
 }

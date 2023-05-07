@@ -103,7 +103,7 @@
     data.id=vis.util.randomUUID();
     data.label = document.getElementById("node-name").value;
     data.title=document.getElementById("node-details").value;
-    updatedNodes.push({id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null})
+    updatedNodes.push({type:0,id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null})
     clearPopUp();
     callback(data);
   }
