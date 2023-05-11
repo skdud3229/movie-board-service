@@ -100,10 +100,10 @@
     document.getElementById("network-popup").style.display = "none";
   }
   function addData(data, callback) {
-    data.id=vis.util.randomUUID();
+    data.id=vis.util.randomUUID().toString();
     data.label = document.getElementById("node-name").value;
     data.title=document.getElementById("node-details").value;
-    updatedNodes.push({type:0,id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null})
+    updatedNodes.push({type:0,id:data.id,details:data.title,name:data.label,isHub:0,PhotoUrl:null})
     clearPopUp();
     callback(data);
   }
