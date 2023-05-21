@@ -5,18 +5,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.movieworld.movieboard.domain.Node;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class NetworkController {
     @GetMapping("/network")
     String network(Model model){
-        Node node1=new Node("0",false, "minions_bob.jpg","bob","it's minions bob!");
-        Node node2=new Node("1",false,null,"second","this is second node");
-        Node node3=new Node("2",false,null,"third","this is third node");
-        List<Node> nodes=new ArrayList<>();
+        Node node1=new Node("0",1,false, "minions_bob.jpg","writer","bob","it's minions bob!");
+        Node node2=new Node("1",1,false,null,"writer","second","this is second node");
+        Node node3=new Node("2",1,false,null,"writer","third","this is third node");
+        ArrayList<Node> nodes=new ArrayList<>();
         nodes.add(node1);
         nodes.add(node2);
         nodes.add(node3);
@@ -24,12 +24,12 @@ public class NetworkController {
         return "network_sample";
     }
     @PostMapping("/network")
-    String saveNetwork(@RequestBody List<updatedNode> nodeList){
-        for (updatedNode element : nodeList) {
+    String saveNetwork(@RequestBody ArrayList<NodeDTO> nodeList){
+        for(NodeDTO element: nodeList){
             System.out.println(element.getType());
-            System.out.println(element.getId());
             System.out.println(element.getName());
+            System.out.println(element.getDetails());
         }
-        return "redirect:/network ";
+        return "redirect:/network";
     }
 }

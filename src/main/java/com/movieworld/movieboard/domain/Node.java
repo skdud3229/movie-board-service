@@ -16,6 +16,9 @@ public class Node {
     @Column(name="ID")
     private String id;
 
+    @Column(name="BOARDID")
+    private int BoardID;
+
     @Column(name="ISHUB")
     private boolean isHub;
 
@@ -33,8 +36,9 @@ public class Node {
 
     }
 
-    public Node(@NotNull String id, boolean isHub, String photoUrl, String authorID, String name, String details) {
+    public Node(@NotNull String id, int boardID,boolean isHub, String photoUrl, String authorID, String name, String details) {
         this.id = id;
+        this.BoardID=boardID;
         this.isHub = isHub;
         PhotoUrl = photoUrl;
         AuthorID = authorID;
