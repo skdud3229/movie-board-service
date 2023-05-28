@@ -1,19 +1,31 @@
 package com.movieworld.movieboard.controller;
 
-public class Node {
+public class NodeDTO {
+    private int type;
     private String id;
-    //long boardId;
+
     private boolean isHub;
     private String PhotoUrl;
     private String name;
     private String details;
+    public NodeDTO(){
+    }
     //String author;
-    Node(String id, boolean isHub, String PhotoUrl, String name, String details){
+    public NodeDTO(int type, String id,boolean isHub, String PhotoUrl, String name, String details){
+        this.type=type;
         this.id=id;
         this.isHub=isHub;
         this.PhotoUrl=PhotoUrl;
         this.name=name;
         this.details=details;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getId() {
@@ -23,7 +35,6 @@ public class Node {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public boolean isHub() {
         return isHub;

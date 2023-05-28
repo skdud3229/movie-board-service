@@ -3,7 +3,6 @@ package com.movieworld.movieboard.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -14,32 +13,36 @@ import org.jetbrains.annotations.NotNull;
 public class Node {
     @Id
     @NotNull
+    @Column(name="ID")
     private String id;
 
+    @Column(name="BOARDID")
+    private int BoardID;
+
+    @Column(name="ISHUB")
     private boolean isHub;
 
-    @Column(length=500)
+    @Column(name="PHOTOURL",length=500)
     private String PhotoUrl;
 
-    @Column(length=30)
+    @Column(name="AUTHORID",length=30)
     private String AuthorID;
 
-    @Column(length=40)
+    @Column(name="NAME",length=40)
     private String name;
-    @Column(length=500)
+    @Column(name="DETAILS",length=500)
     private String details;
     public Node(){
 
     }
 
-    public Node(@NotNull String id, boolean isHub, String photoUrl, String authorID, String name, String details) {
+    public Node(@NotNull String id, int boardID,boolean isHub, String photoUrl, String authorID, String name, String details) {
         this.id = id;
+        this.BoardID=boardID;
         this.isHub = isHub;
         PhotoUrl = photoUrl;
         AuthorID = authorID;
         this.name = name;
         this.details = details;
     }
-
-
 }
