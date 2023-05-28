@@ -1,5 +1,10 @@
 package com.movieworld.movieboard.controller;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class NodeDTO {
     private int type;
     private String id;
@@ -11,6 +16,8 @@ public class NodeDTO {
     public NodeDTO(){
     }
     //String author;
+    private int BoardID;
+    private String AuthorID;
     public NodeDTO(int type, String id,boolean isHub, String PhotoUrl, String name, String details){
         this.type=type;
         this.id=id;

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class updatedNode {
     private String id;
     private int type;
-
+    private int boardID;
     private boolean isHub;
 
     private String PhotoUrl;

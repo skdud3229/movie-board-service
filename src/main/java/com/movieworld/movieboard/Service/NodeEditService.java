@@ -2,6 +2,7 @@ package com.movieworld.movieboard.Service;
 
 import com.movieworld.movieboard.DTO.updatedNode;
 import com.movieworld.movieboard.Repository.NodeRepository;
+import com.movieworld.movieboard.controller.NodeDTO;
 import com.movieworld.movieboard.domain.Node;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,9 @@ public class NodeEditService {
         this.nodeRepository = nodeRepository;
     }
 
-    public void EditNode(List<updatedNode> nodelist){
+    public void EditNode(List<NodeDTO> nodelist){
         for(int i=0; i<nodelist.size(); i++){
-            updatedNode curNode=nodelist.get(i);
+            NodeDTO curNode=nodelist.get(i);
             int type=curNode.getType();
 
             //add
@@ -25,10 +26,10 @@ public class NodeEditService {
                 System.out.println(curNode.getId());
                 System.out.println(curNode.isHub());
                 System.out.println(curNode.getPhotoUrl());
-                System.out.println(curNode.getAuthorID());
+                //System.out.println(curNode.getAuthorID());
                 System.out.println(curNode.getName());
                 System.out.println(curNode.getDetails());
-                Node newNode=new Node(curNode.getId(),curNode.isHub(),curNode.getPhotoUrl(),curNode.getAuthorID(),curNode.getName(),curNode.getDetails());
+                Node newNode=new Node(curNode.getId(), curNode.getBoardID(), curNode.isHub(),curNode.getPhotoUrl(),curNode.getAuthorID(),curNode.getName(),curNode.getDetails());
                 nodeRepository.save(newNode);
             }
             //delete

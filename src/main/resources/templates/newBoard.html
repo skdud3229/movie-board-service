@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang=""en>
+<head>
+    <meta charset="UTF-8">
+    <title>영화 정보 입력</title>
+</head>
+<body>
+<h1>영화 정보 입력</h1>
+<form>
+    <label for="title">영화 제목:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="released">공개 여부:</label>
+    <select id="released" name="released" required>
+        <option value="">선택하세요</option>
+        <option value="yes">공개됨</option>
+        <option value="no">미공개</option>
+    </select><br><br>
+
+    <label for="description">간단한 소개글:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+    <input type="submit" value="제출">
+</form>
+</body>
+</html>

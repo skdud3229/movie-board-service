@@ -1,5 +1,6 @@
 package com.movieworld.movieboard.controller;
 
+import com.movieworld.movieboard.Service.NodeEditService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,12 @@ import java.util.ArrayList;
 
 @Controller
 public class NetworkController {
+    private final NodeEditService nodeEditService;
+
+    public NetworkController(NodeEditService nodeEditService) {
+        this.nodeEditService = nodeEditService;
+    }
+
     @GetMapping("/network")
     String network(Model model){
         Node node1=new Node("0",1,false, "minions_bob.jpg","writer","bob","it's minions bob!");
@@ -29,6 +36,7 @@ public class NetworkController {
             System.out.println(element.getType());
             System.out.println(element.getName());
             System.out.println(element.getDetails());
+            nodeEditService.EditNode(nodeList);
         }
         return "redirect:/network";
     }
