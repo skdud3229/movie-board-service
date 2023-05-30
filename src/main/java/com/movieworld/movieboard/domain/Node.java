@@ -19,7 +19,7 @@ public class Node {
     @Column(name="BOARDID")
     private int BoardID;
 
-    @Column(name="ISHUB")
+    @Column(name="IS_HUB")
     private boolean isHub;
 
     @Column(name="PHOTOURL",length=500)
@@ -32,6 +32,7 @@ public class Node {
     private String name;
     @Column(name="DETAILS",length=500)
     private String details;
+
     public Node(){
 
     }

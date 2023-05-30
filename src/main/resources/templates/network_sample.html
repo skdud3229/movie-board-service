@@ -126,7 +126,7 @@
         data.title=document.getElementById("node-details").value;
         nodes.push(data);
         network.setData({nodes:nodes});
-        updatedNodes.push({type:0,id:data.id,details:data.title,name:data.label,isHub:false,PhotoUrl:null});
+        updatedNodes.push({type:0,id:data.id,details:data.title,name:data.label,isHub:0,PhotoUrl:null});
         clearPopUp();
         //callback(data);
       }

@@ -8,5 +8,5 @@ import lombok.Setter;
 public class BoardDTO {
     private String title;
     private String content;
-    private boolean isPrivate;
+    private String isPrivate;
 }
