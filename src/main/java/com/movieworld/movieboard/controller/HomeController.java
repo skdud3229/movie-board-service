@@ -45,8 +45,8 @@ public class HomeController {
         List boardlist=boardService.ReturnBoard(pn);
         model.addAttribute("boardlist",boardlist);
         model.addAttribute("pn",pn);
-        return "Boardlist";
+        long TotalBlock=boardService.countBlock();
+        model.addAttribute("totalblock",TotalBlock);
+        return "board/Boardlist";
     }
-
-
 }

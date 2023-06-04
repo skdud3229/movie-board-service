@@ -35,4 +35,8 @@ public class BoardService {
         return returnList;
     }
 
+    public Long countBlock(){
+        long count=boardRepository.countByIsPrivate(false);
+        return (long)(Math.ceil(count/5)+1);
+    }
 }

@@ -52,4 +52,7 @@ public class Board {
         this.updatedAt=LocalDateTime.now();
         this.views=0;
     }
+    public Board(){
+
+    }
 }

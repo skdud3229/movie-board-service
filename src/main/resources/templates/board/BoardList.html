@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="board-list">
+        <h1> 영화 게시판 </h1>
+        <button type="button" onclick="location.href='/newBoard'"> 게시글 생성 </button>
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <td> 번호 </td>
+                    <td> 제목 </td>
+                    <td> 글쓴이</td>
+                    <td> 작성일 </td>
+                    <td> 조회수 </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board,i:${boardlist}">
+                    <td th:text="${i.count}+5*${pn}-5"></td>
+                    <td>
+                        <a th:href="@{/board_details(id=${board.id})}" th:text="${board.title}"></a>
+                    </td>
+                    <td th:text="${board.WriterName}"></td>
+                    <td th:text="${board.createdAt}"></td>
+                    <td th:text="${board.views}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="board-block">
+        <b> - </b>
+        <th:block th:each="num : ${#numbers.sequence(1,totalblock)}">
+            <a th:href="@{/Boardlist(pagenum=${num})}" th:text="${num}"></a>
+        </th:block>
+        <b> - </b>
+    </div>
+</body>
+</html>
