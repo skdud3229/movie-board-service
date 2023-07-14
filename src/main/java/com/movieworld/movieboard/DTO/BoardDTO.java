@@ -9,4 +9,5 @@ public class BoardDTO {
     private String title;
     private String content;
     private String isPrivate;
+    private Long id;
 }

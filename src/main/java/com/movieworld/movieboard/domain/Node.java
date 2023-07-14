@@ -1,23 +1,26 @@
 package com.movieworld.movieboard.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Node {
     @Id
     @NotNull
     @Column(name="ID")
     private String id;
 
-    @Column(name="BOARDID")
-    private int BoardID;
+    @ManyToOne
+    @JoinColumn(name="Board_ID")
+    private Board board;
 
     @Column(name="IS_HUB")
     private boolean isHub;
@@ -33,16 +36,16 @@ public class Node {
     @Column(name="DETAILS",length=500)
     private String details;
 
-    public Node(){
+/*    public Node(Board board, String id, boolean isHub, String photoUrl, String writer, String bob, String details){
 
-    }
+    }*/
 
-    public Node(@NotNull String id, int boardID,boolean isHub, String photoUrl, String authorID, String name, String details) {
+    public Node(@NotNull String id, Board board, boolean isHub, String photoUrl, String authorID, String name, String details) {
         this.id = id;
-        this.BoardID=boardID;
+        this.board=board;
         this.isHub = isHub;
-        PhotoUrl = photoUrl;
-        AuthorID = authorID;
+        this.PhotoUrl = photoUrl;
+        this.AuthorID = authorID;
         this.name = name;
         this.details = details;
     }

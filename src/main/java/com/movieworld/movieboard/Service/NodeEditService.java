@@ -1,35 +1,44 @@
 package com.movieworld.movieboard.Service;
 
-import com.movieworld.movieboard.DTO.updatedNode;
+import com.movieworld.movieboard.Repository.BoardRepository;
 import com.movieworld.movieboard.Repository.NodeRepository;
 import com.movieworld.movieboard.controller.NodeDTO;
+import com.movieworld.movieboard.domain.Board;
 import com.movieworld.movieboard.domain.Node;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NodeEditService {
     private final NodeRepository nodeRepository;
+    private final BoardRepository boardRepository;
 
-    public NodeEditService(NodeRepository nodeRepository) {
+    public NodeEditService(NodeRepository nodeRepository, BoardRepository boardRepository) {
         this.nodeRepository = nodeRepository;
+        this.boardRepository = boardRepository;
     }
 
-    public void EditNode(List<NodeDTO> nodelist){
+    public void EditNode(List<NodeDTO> nodelist, Long BoardID) throws Exception {
         for(int i=0; i<nodelist.size(); i++){
             NodeDTO curNode=nodelist.get(i);
             int type=curNode.getType();
 
             //add
             if(type==0){
+                System.out.println("curNode ID\n");
                 System.out.println(curNode.getId());
                 System.out.println(curNode.isHub());
                 System.out.println(curNode.getPhotoUrl());
                 //System.out.println(curNode.getAuthorID());
                 System.out.println(curNode.getName());
                 System.out.println(curNode.getDetails());
-                Node newNode=new Node(curNode.getId(), curNode.getBoardID(), curNode.isHub(),curNode.getPhotoUrl(),curNode.getAuthorID(),curNode.getName(),curNode.getDetails());
+                Board board=boardRepository.findById(BoardID).orElseThrow(()->new Exception());
+                System.out.println("find board : "); System.out.println(board.getId());
+                Node newNode=new Node(curNode.getId(), board, curNode.isHub(),curNode.getPhotoUrl(),curNode.getAuthorID(),curNode.getName(),curNode.getDetails());
+                System.out.println(newNode.getId());
                 nodeRepository.save(newNode);
             }
             //delete
@@ -49,5 +58,14 @@ public class NodeEditService {
                 nodeRepository.save(updateNode);
             }
         }
+    }
+
+    public ArrayList<Node> GetNode(Long BoardID){
+        ArrayList<Node>nodelist= (ArrayList<Node>) nodeRepository.findByboard(BoardID);
+        System.out.println("node edit service is running...\n");
+        for (Node node:nodelist) {
+            System.out.println(node.getId());
+        }
+        return nodelist;
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.coyote.http11.Constants.a;
+
 @Controller
 public class HomeController {
     private final BoardService boardService;
@@ -28,25 +30,27 @@ public class HomeController {
         return "newBoard";
     }
     @RequestMapping(value="/newBoard",method = RequestMethod.POST)
-    String newBoard(@ModelAttribute BoardDTO boardDTO){
-        boardService.AddBoard(boardDTO);
+    String newBoard(@ModelAttribute BoardDTO boardDTO, RedirectAttributes redirectAttributes){
+        Long boardID=boardService.AddBoard(boardDTO);
+        redirectAttributes.addAttribute("BoardID",boardID);
+        System.out.println(boardID);
         return "redirect:/network";
     }
 
     @GetMapping("/Boards")
     String Boards(RedirectAttributes attributes){
-        attributes.addAttribute("pagenum",1);
+        String pn="1";
+        attributes.addAttribute("pn",1);
         return "redirect:/Boardlist";
     }
 
     @GetMapping("/Boardlist")
     String Boardlist(HttpServletRequest request, Model model){
-        int pn= Integer.parseInt(request.getParameter("pagenum"));
+        int pn= Integer.parseInt(request.getParameter("pn"));
         List boardlist=boardService.ReturnBoard(pn);
         model.addAttribute("boardlist",boardlist);
         model.addAttribute("pn",pn);
-        return "Boardlist";
+        return "BoardList";
     }
-
 
 }
